@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {BrowserRouter as Router,Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router,Route, Switch, Link} from 'react-router-dom'
 import './ToDoApp.css';
 
 class ToDoApp extends Component{
@@ -13,6 +13,7 @@ class ToDoApp extends Component{
             <Route path="/login" component={LoginComponent}/>
             {/* :name　任意の値を設定できる。 */}
             <Route path="/welcome/:name" component={WelcomeComponent}/>
+            <Route path="/todos" component={ListTodosComponent}/>
             {/* 定義したURI以外の場合のコンポーネント起動 */}
             <Route component={ErrorComponent}/>
           </Switch>
@@ -22,10 +23,55 @@ class ToDoApp extends Component{
   }
 }
 
+class ListTodosComponent extends Component{
+  constructor(props){
+    super(props)
+    this.state= {
+      todos: 
+      [
+        {id: 1, description: 'Learn React', done: false, targetDate: new Date()},
+        {id: 2, description: 'tkhn0625', done: false, targetDate: new Date()},
+        {id: 3, description: 'nice to meet you', done: false, targetDate: new Date()}
+      ]
+      
+    }
+  }
+  render(){
+    return(
+      <div>
+        <h1>List Todos</h1>
+        <table>
+            <tr>
+              <th>id</th>
+              <th>description</th>
+              <th>Is Completed?</th>
+              <th>Target Date</th>
+            </tr>
+          <tbody>
+            {
+              this.state.todos.map (
+                todo =>
+                  <tr>
+                    <td>{todo.id}</td>
+                    <td>{todo.description}</td>
+                    <td>{todo.done.toString()}</td>
+                    <td>{todo.targetDate.toString()}</td>
+                  </tr>
+              )
+            }
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+}
+
 class WelcomeComponent extends Component{
   render(){
     return(
-      <div>Welcome {this.props.match.params.name}</div>
+      <div>
+        Welcome {this.props.match.params.name}. You can manage your todos <Link to="/todos">here</Link>.
+      </div>
     )
   }
 }
@@ -54,11 +100,8 @@ class LoginComponent extends Component{
   }
 
   loginClicked(event){
-    //tkhno625,dummy
     if(this.state.username==='tkhn0625' && this.state.password==='dummy'){
       this.props.history.push(`/welcome/${this.state.username}`)
-      // this.setState({showSuccessfulMessages:true})
-      // this.setState({hasLoginFailed:false})
     }else{
       this.setState({showSuccessfulMessages:false})
       this.setState({hasLoginFailed:true})
@@ -81,17 +124,5 @@ class LoginComponent extends Component{
     )
   }
 }
-
-// function ShowInvalidCredentials(props){
-//   if(props.hasLoginFailed){
-//     return <div>Invalid Credentials</div>
-//   }return null
-// }
-
-// function ShowLoginSuccessfull(props){
-//   if(props.showSuccessfulMessages){
-//     return <div>Login Successful</div>
-//   }return null
-// }
 
 export default ToDoApp;
