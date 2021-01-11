@@ -9,6 +9,7 @@ import FooterComponent from './FooterComponent.jsx';
 import LogoutComponent from './LogoutComponent.jsx';
 import WelcomeComponent from './WelcomeComponent.jsx';
 import ErrorComponent from './ErrorComponent.jsx';
+import TodoComponent from './TodoComponent.jsx';
 
 class ToDoApp extends Component{
   render(){
@@ -21,8 +22,9 @@ class ToDoApp extends Component{
               <Switch>
                 <Route path="/" exact component={LoginComponent}/>
                 <Route path="/login" component={LoginComponent}/>
-                {/* :name　任意の値を設定できる。 */}
+                {/* :val　任意の値を設定できる。 */}
                 <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent}/>
+                <AuthenticatedRoute path="/todos/:id" component={TodoComponent}/>
                 <AuthenticatedRoute path="/todos" component={ListTodosComponent}/>
                 <AuthenticatedRoute path="/logout" component={LogoutComponent}/>
                 {/* 定義したURI以外の場合のコンポーネント起動 */}
